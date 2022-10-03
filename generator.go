@@ -1,56 +1,9 @@
-package main
+package goinvoice
 
 import (
 	"fmt"
 	"github.com/jung-kurt/gofpdf"
-	"os"
 )
-
-func main() {
-	pwd, err := os.Getwd()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	doc, err := NewWithCyrillic(pwd)
-	if err != nil {
-		return
-	}
-
-	doc.setPwd(pwd)
-	doc.SetInvoice(&Invoice{
-		Logo:  nil,
-		Title: "Alliance Cup",
-	})
-	doc.SetCompany(&Company{
-		Name:        "AllianceCup",
-		Address:     "Шухевича, 22",
-		PhoneNumber: "+380(96) 512-15-16",
-		City:        "Рівне",
-		Country:     "Україна",
-	})
-	doc.SetCustomer(&Customer{
-		LastName:     "Жовтанюк",
-		FirstName:    "Максим",
-		MiddleName:   "В'ячеславович",
-		PhoneNumber:  "+380(68) 306-29-75",
-		Email:        "zhovtyjshady@gmail.com",
-		DeliveryType: "Доставка новою поштою",
-		DeliveryInfo: "м. Рівне, Відділення №12",
-	})
-
-	pdf, err := doc.BuildPdf()
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	err = pdf.OutputFileAndClose("output.pdf")
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-}
 
 func NewWithCyrillic(pwd string) (*Document, error) {
 	tr, err := gofpdf.UnicodeTranslatorFromFile(pwd + "/font/" + "cp1251.map")
@@ -75,7 +28,7 @@ func New(pwd string) (*Document, error) {
 	return &doc, nil
 }
 
-func (doc *Document) setPwd(pwd string) {
+func (doc *Document) SetPwd(pwd string) {
 	doc.Pwd = pwd
 }
 

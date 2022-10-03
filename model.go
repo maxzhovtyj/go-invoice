@@ -1,4 +1,4 @@
-package main
+package goinvoice
 
 import "github.com/jung-kurt/gofpdf"
 
@@ -27,18 +27,19 @@ type Customer struct {
 
 type Product struct {
 	Title    string
-	Price    string
-	Quantity string
-	Discount string
-	Total    string
+	Price    float64
+	Quantity float64
+	Discount float64
+	Total    float64
 }
 
 type Document struct {
 	UnicodeTranslatorFunc func(string) string
 	Products              []Product
+	*Invoice
 	*Customer
 	*Company
-	*Invoice
-	Pwd string
-	pdf *gofpdf.Fpdf
+	TotalSum float64
+	Pwd      string
+	pdf      *gofpdf.Fpdf
 }

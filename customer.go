@@ -1,8 +1,10 @@
-package main
+package goinvoice
 
 import "fmt"
 
 func (doc *Document) writeCustomer() {
+	const align = "R"
+
 	doc.pdf.SetXY(130, 20)
 
 	// Name rect
@@ -10,7 +12,7 @@ func (doc *Document) writeCustomer() {
 
 	// Set name
 	doc.pdf.SetFont("Helvetica", "", 12)
-	doc.pdf.Cell(40, 10, doc.UnicodeTranslatorFunc(doc.customerNameToString()))
+	doc.pdf.CellFormat(70, 10, doc.UnicodeTranslatorFunc(doc.customerNameToString()), "0", 0, align, false, 0, "")
 	doc.pdf.SetFont("Helvetica", "", 12)
 
 	// Address rect
@@ -21,7 +23,7 @@ func (doc *Document) writeCustomer() {
 	// Set address
 	doc.pdf.SetFont("Helvetica", "", 12)
 	doc.pdf.SetXY(130, doc.pdf.GetY()+13)
-	doc.pdf.MultiCell(70, 5, doc.UnicodeTranslatorFunc(doc.customerInfoToString()), "0", "L", false)
+	doc.pdf.MultiCell(70, 5, doc.UnicodeTranslatorFunc(doc.customerInfoToString()), "0", align, false)
 }
 
 func (doc *Document) customerInfoToString() string {
