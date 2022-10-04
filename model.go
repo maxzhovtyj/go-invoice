@@ -36,6 +36,7 @@ type Product struct {
 type Document struct {
 	UnicodeTranslatorFunc func(string) string
 	Products              []Product
+	OrderId               string
 	*Invoice
 	*Customer
 	*Company
@@ -43,3 +44,6 @@ type Document struct {
 	Pwd      string
 	pdf      *gofpdf.Fpdf
 }
+
+// TODO add order id
+// TODO add order datetime

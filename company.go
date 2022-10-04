@@ -14,11 +14,12 @@ func (doc *Document) writeCompany() {
 	doc.pdf.SetFont("Helvetica", "B", 12)
 	doc.pdf.CellFormat(80, 10, doc.UnicodeTranslatorFunc(doc.Company.Name), "0", 0, "L", false, 0, "")
 
-	doc.pdf.Rect(10, doc.pdf.GetY()+12, 70, 17, "F")
+	// draw address rect
+	doc.pdf.Rect(10, doc.pdf.GetY()+12, 70, 19, "F")
 
 	// Set address
 	doc.pdf.SetFont("Helvetica", "", 12)
-	doc.pdf.SetXY(10, doc.pdf.GetY()+13)
+	doc.pdf.SetXY(10, doc.pdf.GetY()+14)
 	doc.pdf.MultiCell(80, 5, doc.UnicodeTranslatorFunc(doc.companyToString()), "0", "L", false)
 }
 

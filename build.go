@@ -1,10 +1,17 @@
 package goinvoice
 
 import (
+	"fmt"
 	"github.com/jung-kurt/gofpdf"
 )
 
 func (doc *Document) BuildPdf() (gofpdf.Fpdf, error) {
+	doc.pdf.SetXY(10, 10)
+
+	// Draw text
+	doc.pdf.SetFont("Helvetica", "", 16)
+	doc.pdf.CellFormat(180, 10, doc.UnicodeTranslatorFunc(doc.orderTitleToString()), "0", 0, "L", false, 0, "")
+
 	if doc.Company != nil {
 		doc.writeCompany()
 	}
@@ -19,6 +26,18 @@ func (doc *Document) BuildPdf() (gofpdf.Fpdf, error) {
 		doc.writeProducts()
 	}
 
+	doc.writeDivider()
+
 	doc.appendTotal()
 	return *doc.pdf, nil
+}
+
+func (doc *Document) orderTitleToString() string {
+	return fmt.Sprintf("Замовлення №%s", doc.OrderId)
+}
+
+func (doc *Document) writeDivider() {
+	doc.pdf.SetX(10)
+	doc.pdf.SetFont("Helvetica", "", 10)
+	doc.pdf.MultiCell(190, 0, doc.UnicodeTranslatorFunc(""), "B", "L", false)
 }

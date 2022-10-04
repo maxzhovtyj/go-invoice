@@ -11,7 +11,7 @@ func (doc *Document) writeProducts() {
 		// Append to pdf
 		p.appendColTo(doc)
 
-		if doc.pdf.GetY() > 260 {
+		if doc.pdf.GetY() > 255 {
 			// Add page
 			doc.pdf.AddPage()
 			doc.drawsTableTitles()
@@ -80,7 +80,7 @@ func (p *Product) appendColTo(doc *Document) {
 		doc.UnicodeTranslatorFunc("---"),
 		"0",
 		0,
-		"",
+		"C",
 		false,
 		0,
 		"",

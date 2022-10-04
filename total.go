@@ -3,7 +3,7 @@ package goinvoice
 import "fmt"
 
 func (doc *Document) appendTotal() {
-	doc.pdf.SetY(doc.pdf.GetY() + 10)
+	doc.pdf.SetY(doc.pdf.GetY() + 5)
 	doc.pdf.SetFont("Helvetica", "", 12)
 	doc.pdf.SetTextColor(35, 35, 35)
 

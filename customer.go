@@ -15,14 +15,33 @@ func (doc *Document) writeCustomer() {
 	doc.pdf.CellFormat(70, 10, doc.UnicodeTranslatorFunc(doc.customerNameToString()), "0", 0, align, false, 0, "")
 	doc.pdf.SetFont("Helvetica", "", 12)
 
-	// Address rect
-	var addrRectHeight float64 = 22
+	// Info rect
+	var infoRectHeight float64 = 4
+	var startY float64
+	if doc.Customer.DeliveryType != "" {
+		infoRectHeight += 5
+		startY += 3.5
+	}
+	if doc.Customer.PhoneNumber != "" {
+		infoRectHeight += 5
+		startY += 3.5
+	}
+	if doc.Customer.Email != "" {
+		infoRectHeight += 5
+		startY += 3.5
+	}
+	if doc.Customer.DeliveryInfo != "" {
+		infoRectHeight += 5
+		startY += 3.5
+	}
 
-	doc.pdf.Rect(130, doc.pdf.GetY()+12, 70, addrRectHeight, "F")
+	if infoRectHeight > 4 {
+		doc.pdf.Rect(130, doc.pdf.GetY()+12, 70, infoRectHeight, "F")
+	}
 
 	// Set address
 	doc.pdf.SetFont("Helvetica", "", 12)
-	doc.pdf.SetXY(130, doc.pdf.GetY()+13)
+	doc.pdf.SetXY(130, doc.pdf.GetY()+14)
 	doc.pdf.MultiCell(70, 5, doc.UnicodeTranslatorFunc(doc.customerInfoToString()), "0", align, false)
 }
 
