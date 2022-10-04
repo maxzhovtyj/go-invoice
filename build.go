@@ -5,6 +5,11 @@ import (
 	"github.com/jung-kurt/gofpdf"
 )
 
+// TODO add packaging column
+// TODO add creation date
+
+// TODO Think about album orientation
+
 func (doc *Document) BuildPdf() (gofpdf.Fpdf, error) {
 	doc.pdf.SetXY(10, 10)
 
