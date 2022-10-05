@@ -32,16 +32,34 @@ func (p *Product) appendColTo(doc *Document) {
 	// Name
 	doc.pdf.SetX(10)
 	doc.pdf.MultiCell(
-		100,
+		90,
 		3,
 		doc.UnicodeTranslatorFunc(p.Title),
-		"",
+		"0",
 		"",
 		false,
 	)
 
 	// Compute line height
 	colHeight := doc.pdf.GetY() - baseY
+
+	if p.Packaging == "" {
+		p.Packaging = "---"
+	}
+	// Product packaging
+	doc.pdf.SetY(baseY)
+	doc.pdf.SetX(100)
+	doc.pdf.CellFormat(
+		20,
+		colHeight,
+		doc.UnicodeTranslatorFunc(p.Packaging),
+		"0",
+		0,
+		"C",
+		false,
+		0,
+		"",
+	)
 
 	// Unit price
 	doc.pdf.SetY(baseY)
@@ -52,7 +70,7 @@ func (p *Product) appendColTo(doc *Document) {
 		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", p.Price)),
 		"0",
 		0,
-		"",
+		"C",
 		false,
 		0,
 		"",
@@ -66,18 +84,24 @@ func (p *Product) appendColTo(doc *Document) {
 		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", p.Quantity)),
 		"0",
 		0,
-		"",
+		"C",
 		false,
 		0,
 		"",
 	)
 
 	// Discount
+	var discountStr string
+	if p.Discount == 0 {
+		discountStr = "---"
+	} else {
+		discountStr = fmt.Sprintf("%f", p.Discount)
+	}
 	doc.pdf.SetX(160)
 	doc.pdf.CellFormat(
 		20,
 		colHeight,
-		doc.UnicodeTranslatorFunc("---"),
+		doc.UnicodeTranslatorFunc(discountStr),
 		"0",
 		0,
 		"C",
@@ -86,7 +110,7 @@ func (p *Product) appendColTo(doc *Document) {
 		"",
 	)
 
-	// TOTAL TTC
+	// TOTAL price
 	doc.pdf.SetX(180)
 	doc.pdf.CellFormat(
 		20,
@@ -94,7 +118,7 @@ func (p *Product) appendColTo(doc *Document) {
 		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", p.Total)),
 		"0",
 		0,
-		"",
+		"C",
 		false,
 		0,
 		"",

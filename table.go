@@ -14,12 +14,25 @@ func (doc *Document) drawsTableTitles() {
 	// Name
 	doc.pdf.SetX(10)
 	doc.pdf.CellFormat(
-		100,
+		90,
 		6,
 		doc.UnicodeTranslatorFunc("Товар"),
 		"0",
 		0,
 		"",
+		false,
+		0,
+		"",
+	)
+
+	doc.pdf.SetX(100)
+	doc.pdf.CellFormat(
+		20,
+		6,
+		doc.UnicodeTranslatorFunc("Пакування"),
+		"0",
+		0,
+		"C",
 		false,
 		0,
 		"",
@@ -33,7 +46,7 @@ func (doc *Document) drawsTableTitles() {
 		doc.UnicodeTranslatorFunc("Ціна"),
 		"0",
 		0,
-		"",
+		"C",
 		false,
 		0,
 		"",
@@ -47,7 +60,7 @@ func (doc *Document) drawsTableTitles() {
 		doc.UnicodeTranslatorFunc("Кількість"),
 		"0",
 		0,
-		"",
+		"C",
 		false,
 		0,
 		"",
@@ -61,7 +74,7 @@ func (doc *Document) drawsTableTitles() {
 		doc.UnicodeTranslatorFunc("Знижка"),
 		"0",
 		0,
-		"",
+		"C",
 		false,
 		0,
 		"",
@@ -75,7 +88,7 @@ func (doc *Document) drawsTableTitles() {
 		doc.UnicodeTranslatorFunc("Сума"),
 		"0",
 		0,
-		"",
+		"C",
 		false,
 		0,
 		"",

@@ -26,11 +26,12 @@ type Customer struct {
 }
 
 type Product struct {
-	Title    string
-	Price    float64
-	Quantity float64
-	Discount float64
-	Total    float64
+	Title     string
+	Packaging string
+	Price     float64
+	Quantity  float64
+	Discount  float64
+	Total     float64
 }
 
 type Document struct {
@@ -44,6 +45,3 @@ type Document struct {
 	Pwd      string
 	pdf      *gofpdf.Fpdf
 }
-
-// TODO add order id
-// TODO add order datetime
