@@ -9,7 +9,7 @@ func (doc *Document) validate() error {
 	}
 
 	// validate company info
-	if doc.Company != nil {
+	if doc.Company == nil {
 		return fmt.Errorf("failed to create pdf, company wasn't provided")
 	}
 	if doc.Company.Name == "" {
@@ -29,16 +29,16 @@ func (doc *Document) validate() error {
 	}
 
 	// validate customer
-	if doc.Customer != nil {
+	if doc.Customer == nil {
 		return fmt.Errorf("failed to create pdf, customer wasn't provided")
 	}
-	if doc.Customer.LastName != "" {
+	if doc.Customer.LastName == "" {
 		return fmt.Errorf("failed to create pdf, customer lastname wasn't provided")
 	}
-	if doc.Customer.FirstName != "" {
+	if doc.Customer.FirstName == "" {
 		return fmt.Errorf("failed to create pdf, customer firstname wasn't provided")
 	}
-	if doc.Customer.MiddleName != "" {
+	if doc.Customer.MiddleName == "" {
 		return fmt.Errorf("failed to create pdf, customer middlename wasn't provided")
 	}
 

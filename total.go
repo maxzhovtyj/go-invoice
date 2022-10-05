@@ -2,8 +2,17 @@ package goinvoice
 
 import "fmt"
 
-func (doc *Document) appendTotal() {
-	doc.pdf.SetY(doc.pdf.GetY() + 5)
+func (doc *Document) appendTotal(posY float64) {
+	var totalSum float64
+	if doc.TotalSum == 0 {
+		for _, p := range doc.Products {
+			totalSum += p.Total
+		}
+	} else {
+		totalSum = doc.TotalSum
+	}
+
+	doc.pdf.SetY(posY + 5)
 	doc.pdf.SetFont("Helvetica", "", 12)
 	doc.pdf.SetTextColor(35, 35, 35)
 
@@ -29,7 +38,7 @@ func (doc *Document) appendTotal() {
 	doc.pdf.CellFormat(
 		40,
 		10,
-		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", doc.TotalSum)),
+		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", totalSum)),
 		"0",
 		0,
 		"C",

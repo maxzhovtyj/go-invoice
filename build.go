@@ -3,6 +3,7 @@ package goinvoice
 import (
 	"fmt"
 	"github.com/jung-kurt/gofpdf"
+	"time"
 )
 
 // TODO add creation date
@@ -19,7 +20,7 @@ func (doc *Document) BuildPdf() (gofpdf.Fpdf, error) {
 
 	// Draw text
 	doc.pdf.SetFont("Helvetica", "", 16)
-	doc.pdf.CellFormat(180, 10, doc.UnicodeTranslatorFunc(doc.orderTitleToString()), "0", 0, "L", false, 0, "")
+	doc.pdf.CellFormat(180, 5, doc.UnicodeTranslatorFunc(doc.orderTitleToString()), "0", 0, "L", false, 0, "")
 
 	if doc.Company != nil {
 		doc.writeCompany()
@@ -29,6 +30,8 @@ func (doc *Document) BuildPdf() (gofpdf.Fpdf, error) {
 		doc.writeCustomer()
 	}
 
+	doc.writeDate()
+
 	doc.drawsTableTitles()
 
 	if doc.Products != nil {
@@ -37,7 +40,8 @@ func (doc *Document) BuildPdf() (gofpdf.Fpdf, error) {
 
 	doc.writeDivider()
 
-	doc.appendTotal()
+	posY := doc.supplierAndReceiver()
+	doc.appendTotal(posY)
 	return *doc.pdf, nil
 }
 
@@ -47,6 +51,23 @@ func (doc *Document) orderTitleToString() string {
 
 func (doc *Document) writeDivider() {
 	doc.pdf.SetX(10)
-	doc.pdf.SetFont("Helvetica", "", 10)
 	doc.pdf.MultiCell(190, 0, doc.UnicodeTranslatorFunc(""), "B", "L", false)
+}
+
+func (doc *Document) writeDate() {
+	doc.pdf.SetXY(10, doc.pdf.GetY()+10)
+	doc.pdf.SetFont("Helvetica", "", 10)
+	doc.pdf.MultiCell(190, 5, doc.UnicodeTranslatorFunc(doc.getCurrentTimeString()), "B", "L", false)
+}
+
+func (doc *Document) getCurrentTimeString() string {
+	return fmt.Sprintf(
+		"Видано: %d/%d/%d, %d:%d:%d",
+		time.Now().Day(),
+		int(time.Now().Month()),
+		time.Now().Year(),
+		time.Now().Hour(),
+		time.Now().Minute(),
+		time.Now().Second(),
+	)
 }
