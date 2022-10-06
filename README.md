@@ -10,9 +10,15 @@ https://github.com/angelodlfrtr/go-invoice-generator - inspiration
 go get -u github.com/maxzhovtyj/go-invoice
 ```
 ---
-* #### Package uses ukrainian language
+* Package supports both english and ukrainian 
 
 ---
+
+## Example output
+
+---
+
+![DeliveryNoteExample](example.png)
 
 ### Example:
 ```go
@@ -85,6 +91,3 @@ func main() {
 	}
 }
 ```
-
-### Example output:
-
