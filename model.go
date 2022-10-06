@@ -41,6 +41,8 @@ type Document struct {
 	*Invoice
 	*Customer
 	*Company
+	Language string
+	Font     string
 	TotalSum float64
 	Pwd      string
 	pdf      *gofpdf.Fpdf

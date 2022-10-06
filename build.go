@@ -6,11 +6,18 @@ import (
 	"time"
 )
 
-// TODO add creation date
-// TODO add order id
 // TODO Think about album orientation
+// TODO font option
+// TODO language switching
 
 func (doc *Document) BuildPdf() (gofpdf.Fpdf, error) {
+	if doc.Font == "" {
+		doc.Font = "Arial"
+	}
+	if doc.Language == "UK" {
+		doc.Font = "Helvetica"
+	}
+
 	err := doc.validate()
 	if err != nil {
 		return gofpdf.Fpdf{}, err
@@ -19,7 +26,7 @@ func (doc *Document) BuildPdf() (gofpdf.Fpdf, error) {
 	doc.pdf.SetXY(10, 10)
 
 	// Draw text
-	doc.pdf.SetFont("Helvetica", "", 16)
+	doc.pdf.SetFont(doc.Font, "", 16)
 	doc.pdf.CellFormat(180, 5, doc.UnicodeTranslatorFunc(doc.orderTitleToString()), "0", 0, "L", false, 0, "")
 
 	if doc.Company != nil {
@@ -46,7 +53,12 @@ func (doc *Document) BuildPdf() (gofpdf.Fpdf, error) {
 }
 
 func (doc *Document) orderTitleToString() string {
-	return fmt.Sprintf("Замовлення №%s", doc.OrderId)
+	switch doc.Language {
+	case "UK":
+		return fmt.Sprintf("Замовлення №%s", doc.OrderId)
+	default:
+		return fmt.Sprintf("Order No.%s", doc.OrderId)
+	}
 }
 
 func (doc *Document) writeDivider() {
@@ -55,14 +67,23 @@ func (doc *Document) writeDivider() {
 }
 
 func (doc *Document) writeDate() {
+	doc.pdf.SetFont(doc.Font, "", 10)
 	doc.pdf.SetXY(10, doc.pdf.GetY()+10)
-	doc.pdf.SetFont("Helvetica", "", 10)
 	doc.pdf.MultiCell(190, 5, doc.UnicodeTranslatorFunc(doc.getCurrentTimeString()), "B", "L", false)
 }
 
 func (doc *Document) getCurrentTimeString() string {
+	var issuedStr string
+	switch doc.Language {
+	case "UK":
+		issuedStr = "Видано"
+	default:
+		issuedStr = "Issued"
+	}
+
 	return fmt.Sprintf(
-		"Видано: %d/%d/%d, %d:%d:%d",
+		"%s: %d/%d/%d, %d:%d:%d",
+		issuedStr,
 		time.Now().Day(),
 		int(time.Now().Month()),
 		time.Now().Year(),

@@ -3,6 +3,15 @@ package goinvoice
 import "fmt"
 
 func (doc *Document) appendTotal(posY float64) {
+	var totalTitle string
+
+	switch doc.Language {
+	case "UK":
+		totalTitle = "Загальна сума"
+	default:
+		totalTitle = "Total"
+	}
+
 	var totalSum float64
 	if doc.TotalSum == 0 {
 		for _, p := range doc.Products {
@@ -12,8 +21,9 @@ func (doc *Document) appendTotal(posY float64) {
 		totalSum = doc.TotalSum
 	}
 
+	doc.pdf.SetFont(doc.Font, "", 12)
+
 	doc.pdf.SetY(posY + 5)
-	doc.pdf.SetFont("Helvetica", "", 12)
 	doc.pdf.SetTextColor(35, 35, 35)
 
 	// Draw TOTAL title
@@ -22,7 +32,7 @@ func (doc *Document) appendTotal(posY float64) {
 	doc.pdf.Rect(120, doc.pdf.GetY(), 40, 10, "F")
 	doc.pdf.CellFormat(38,
 		10,
-		doc.UnicodeTranslatorFunc("Загальна сума"),
+		doc.UnicodeTranslatorFunc(totalTitle),
 		"0",
 		0,
 		"C",

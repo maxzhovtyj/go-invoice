@@ -3,9 +3,10 @@ package goinvoice
 import "fmt"
 
 func (doc *Document) writeProducts() {
+	doc.pdf.SetFont(doc.Font, "", 10)
+
 	doc.pdf.SetX(10)
 	doc.pdf.SetY(doc.pdf.GetY() + 10)
-	doc.pdf.SetFont("Helvetica", "", 10)
 
 	for _, p := range doc.Products {
 		// Append to pdf
@@ -16,7 +17,6 @@ func (doc *Document) writeProducts() {
 			doc.pdf.AddPage()
 			doc.drawsTableTitles()
 			doc.pdf.SetY(doc.pdf.GetY() + 5)
-			doc.pdf.SetFont("Helvetica", "", 10)
 		}
 
 		doc.pdf.SetX(10)
@@ -110,12 +110,19 @@ func (p *Product) appendColTo(doc *Document) {
 		"",
 	)
 
-	// TOTAL price
+	// total price
+	var totalPrice float64
+	if p.Total == 0 {
+		totalPrice = p.Price * p.Quantity
+	} else {
+		totalPrice = p.Total
+	}
+
 	doc.pdf.SetX(180)
 	doc.pdf.CellFormat(
 		20,
 		colHeight,
-		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", p.Total)),
+		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", totalPrice)),
 		"0",
 		0,
 		"C",

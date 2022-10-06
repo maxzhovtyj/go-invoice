@@ -3,6 +3,8 @@ package goinvoice
 import "fmt"
 
 func (doc *Document) writeCustomer() {
+	doc.pdf.SetFont(doc.Font, "", 12)
+
 	const align = "R"
 
 	doc.pdf.SetXY(130, 20)
@@ -11,9 +13,7 @@ func (doc *Document) writeCustomer() {
 	doc.pdf.Rect(130, doc.pdf.GetY(), 70, 10, "F")
 
 	// Set name
-	doc.pdf.SetFont("Helvetica", "", 12)
 	doc.pdf.CellFormat(70, 10, doc.UnicodeTranslatorFunc(doc.customerNameToString()), "0", 0, align, false, 0, "")
-	doc.pdf.SetFont("Helvetica", "", 12)
 
 	// Info rect
 	var infoRectHeight float64 = 4
@@ -40,7 +40,6 @@ func (doc *Document) writeCustomer() {
 	}
 
 	// Set address
-	doc.pdf.SetFont("Helvetica", "", 12)
 	doc.pdf.SetXY(130, doc.pdf.GetY()+14)
 	doc.pdf.MultiCell(70, 5, doc.UnicodeTranslatorFunc(doc.customerInfoToString()), "0", align, false)
 }

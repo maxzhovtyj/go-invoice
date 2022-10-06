@@ -1,13 +1,24 @@
 package goinvoice
 
 func (doc *Document) supplierAndReceiver() float64 {
-	posY := doc.pdf.GetY()
+	var supplierTitle, recipientTitle string
 
-	doc.pdf.SetFont("Helvetica", "", 10)
+	switch doc.Language {
+	case "UK":
+		supplierTitle = "Постачальник:"
+		recipientTitle = "Отримав:"
+	default:
+		supplierTitle = "Supplier:"
+		recipientTitle = "Recipient:"
+	}
+
+	doc.pdf.SetFont(doc.Font, "", 10)
+
+	posY := doc.pdf.GetY()
 
 	// draw supplier text
 	doc.pdf.SetXY(10, posY+5)
-	doc.pdf.CellFormat(26, 5, doc.UnicodeTranslatorFunc("Постачальник:"), "0", 0, "R", false, 0, "")
+	doc.pdf.CellFormat(26, 5, doc.UnicodeTranslatorFunc(supplierTitle), "0", 0, "R", false, 0, "")
 
 	// draw supplier line
 	doc.pdf.SetXY(38, posY+8.5)
@@ -15,7 +26,7 @@ func (doc *Document) supplierAndReceiver() float64 {
 
 	// draw receiver text
 	doc.pdf.SetXY(10, posY+10)
-	doc.pdf.CellFormat(26, 5, doc.UnicodeTranslatorFunc("Отримав:"), "0", 0, "R", false, 0, "")
+	doc.pdf.CellFormat(26, 5, doc.UnicodeTranslatorFunc(recipientTitle), "0", 0, "R", false, 0, "")
 
 	// draw receiver line
 	doc.pdf.SetXY(38, posY+13.5)

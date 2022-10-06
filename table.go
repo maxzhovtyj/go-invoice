@@ -2,10 +2,37 @@ package goinvoice
 
 // drawsTableTitles in document
 func (doc *Document) drawsTableTitles() {
+	var (
+		productTitle,
+		packagingTitle,
+		priceTitle,
+		quantityTitle,
+		discountTitle,
+		totalTitle string
+	)
+
+	switch doc.Language {
+	case "UK":
+		productTitle = "Товар"
+		packagingTitle = "Пакування"
+		priceTitle = "Ціна"
+		quantityTitle = "Кількість"
+		discountTitle = "Знижка"
+		totalTitle = "Сума"
+	default:
+		productTitle = "Name"
+		packagingTitle = "Packaging"
+		priceTitle = "Price"
+		quantityTitle = "Quantity"
+		discountTitle = "Discount"
+		totalTitle = "Total"
+	}
+
+	doc.pdf.SetFont(doc.Font, "", 10)
+
 	// Draw table titles
 	doc.pdf.SetX(10)
 	doc.pdf.SetY(doc.pdf.GetY() + 5)
-	doc.pdf.SetFont("Helvetica", "", 10)
 
 	// Draw rec
 	doc.pdf.SetFillColor(212, 212, 212)
@@ -16,7 +43,7 @@ func (doc *Document) drawsTableTitles() {
 	doc.pdf.CellFormat(
 		90,
 		6,
-		doc.UnicodeTranslatorFunc("Товар"),
+		doc.UnicodeTranslatorFunc(productTitle),
 		"0",
 		0,
 		"",
@@ -29,7 +56,7 @@ func (doc *Document) drawsTableTitles() {
 	doc.pdf.CellFormat(
 		20,
 		6,
-		doc.UnicodeTranslatorFunc("Пакування"),
+		doc.UnicodeTranslatorFunc(packagingTitle),
 		"0",
 		0,
 		"C",
@@ -43,7 +70,7 @@ func (doc *Document) drawsTableTitles() {
 	doc.pdf.CellFormat(
 		20,
 		6,
-		doc.UnicodeTranslatorFunc("Ціна"),
+		doc.UnicodeTranslatorFunc(priceTitle),
 		"0",
 		0,
 		"C",
@@ -57,7 +84,7 @@ func (doc *Document) drawsTableTitles() {
 	doc.pdf.CellFormat(
 		20,
 		6,
-		doc.UnicodeTranslatorFunc("Кількість"),
+		doc.UnicodeTranslatorFunc(quantityTitle),
 		"0",
 		0,
 		"C",
@@ -71,7 +98,7 @@ func (doc *Document) drawsTableTitles() {
 	doc.pdf.CellFormat(
 		20,
 		6,
-		doc.UnicodeTranslatorFunc("Знижка"),
+		doc.UnicodeTranslatorFunc(discountTitle),
 		"0",
 		0,
 		"C",
@@ -85,7 +112,7 @@ func (doc *Document) drawsTableTitles() {
 	doc.pdf.CellFormat(
 		20,
 		6,
-		doc.UnicodeTranslatorFunc("Сума"),
+		doc.UnicodeTranslatorFunc(totalTitle),
 		"0",
 		0,
 		"C",
