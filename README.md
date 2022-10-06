@@ -16,8 +16,6 @@ go get -u github.com/maxzhovtyj/go-invoice
 
 ## Example output
 
----
-
 ![DeliveryNoteExample](example.png)
 
 ### Example:
