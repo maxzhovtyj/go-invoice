@@ -9,11 +9,11 @@ func (doc *Document) writeProducts() {
 	doc.pdf.SetY(doc.pdf.GetY() + 10)
 
 	for _, p := range doc.Products {
-		// Append to pdf
+		// append to pdf
 		p.appendColTo(doc)
 
 		if doc.pdf.GetY() > 255 {
-			// Add page
+			// add page
 			doc.pdf.AddPage()
 			doc.drawsTableTitles()
 			doc.pdf.SetY(doc.pdf.GetY() + 5)
@@ -26,34 +26,36 @@ func (doc *Document) writeProducts() {
 
 // appendColTo document doc
 func (p *Product) appendColTo(doc *Document) {
-	// Get base Y (top of line)
+	borderTable := "0"
+
+	// get base Y (top of line)
 	baseY := doc.pdf.GetY()
 
-	// Name
+	// name
 	doc.pdf.SetX(10)
 	doc.pdf.MultiCell(
 		90,
 		3,
 		doc.UnicodeTranslatorFunc(p.Title),
-		"0",
+		borderTable,
 		"",
 		false,
 	)
 
-	// Compute line height
+	// compute line height
 	colHeight := doc.pdf.GetY() - baseY
 
+	// Product packaging
 	if p.Packaging == "" {
 		p.Packaging = "---"
 	}
-	// Product packaging
 	doc.pdf.SetY(baseY)
 	doc.pdf.SetX(100)
 	doc.pdf.CellFormat(
 		20,
 		colHeight,
 		doc.UnicodeTranslatorFunc(p.Packaging),
-		"0",
+		borderTable,
 		0,
 		"C",
 		false,
@@ -61,14 +63,14 @@ func (p *Product) appendColTo(doc *Document) {
 		"",
 	)
 
-	// Unit price
+	// unit price
 	doc.pdf.SetY(baseY)
 	doc.pdf.SetX(120)
 	doc.pdf.CellFormat(
 		20,
 		colHeight,
 		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", p.Price)),
-		"0",
+		borderTable,
 		0,
 		"C",
 		false,
@@ -76,13 +78,13 @@ func (p *Product) appendColTo(doc *Document) {
 		"",
 	)
 
-	// Quantity
+	// quantity
 	doc.pdf.SetX(140)
 	doc.pdf.CellFormat(
 		20,
 		colHeight,
 		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", p.Quantity)),
-		"0",
+		borderTable,
 		0,
 		"C",
 		false,
@@ -90,7 +92,7 @@ func (p *Product) appendColTo(doc *Document) {
 		"",
 	)
 
-	// Discount
+	// discount
 	var discountStr string
 	if p.Discount == 0 {
 		discountStr = "---"
@@ -102,7 +104,7 @@ func (p *Product) appendColTo(doc *Document) {
 		20,
 		colHeight,
 		doc.UnicodeTranslatorFunc(discountStr),
-		"0",
+		borderTable,
 		0,
 		"C",
 		false,
@@ -123,7 +125,7 @@ func (p *Product) appendColTo(doc *Document) {
 		20,
 		colHeight,
 		doc.UnicodeTranslatorFunc(fmt.Sprintf("%f", totalPrice)),
-		"0",
+		borderTable,
 		0,
 		"C",
 		false,
@@ -131,6 +133,6 @@ func (p *Product) appendColTo(doc *Document) {
 		"",
 	)
 
-	// Set Y for next line
+	// set Y for next line
 	doc.pdf.SetY(baseY + colHeight)
 }

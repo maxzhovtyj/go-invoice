@@ -15,7 +15,7 @@ func (doc *Document) appendTotal(posY float64) {
 	var totalSum float64
 	if doc.TotalSum == 0 {
 		for _, p := range doc.Products {
-			totalSum += p.Total
+			totalSum += p.Price * p.Quantity
 		}
 	} else {
 		totalSum = doc.TotalSum
