@@ -31,10 +31,11 @@ func (doc *Document) writeCustomer() {
 		startY += 3.5
 	}
 	if doc.Customer.DeliveryInfo != "" {
-		infoRectHeight += 5
+		infoRectHeight += 5 * float64(len(doc.Customer.DeliveryInfo)/37)
 		startY += 3.5
 	}
 
+	// draw rect
 	if infoRectHeight > 4 {
 		doc.pdf.Rect(130, doc.pdf.GetY()+12, 70, infoRectHeight, "F")
 	}
